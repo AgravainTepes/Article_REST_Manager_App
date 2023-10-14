@@ -1,4 +1,4 @@
-package com.agravain.spring.springboot.rest.app.Exceptions.MyExceptions;
+package com.agravain.spring.springboot.rest.app.Exceptions.ArticleExceptions;
 
 public class NoSuchArticleException extends RuntimeException{
 

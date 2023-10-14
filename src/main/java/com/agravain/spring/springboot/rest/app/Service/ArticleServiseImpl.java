@@ -25,12 +25,11 @@ public class ArticleServiseImpl implements ArticleService {
     }
 
     @Override
-    public ArticleEntity getArticleByID(int id) {
-        ArticleEntity article = null;
+    public Optional<ArticleEntity> getArticleByID(int id) {
+
         Optional<ArticleEntity> optional = articleRepository.findById(id);
-        if (optional.isPresent())
-            article = optional.get();
-        return article;
+
+        return optional;
     }
 
     @Override

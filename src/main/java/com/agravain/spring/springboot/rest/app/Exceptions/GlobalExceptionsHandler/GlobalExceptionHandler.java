@@ -13,21 +13,24 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity<ArticleIncorrectDataException> handleException(ArticleIncorrectAuthorException exception) {
+    public ResponseEntity<ArticleIncorrectDataException> handleException(
+            ArticleIncorrectAuthorException exception) {
         ArticleIncorrectDataException data = new ArticleIncorrectDataException();
         data.setInfo(exception.getMessage());
         return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ArticleIncorrectDataException> handleException(ArticleIncorrectContentException exception) {
+    public ResponseEntity<ArticleIncorrectDataException> handleException(
+            ArticleIncorrectContentException exception) {
         ArticleIncorrectDataException data = new ArticleIncorrectDataException();
         data.setInfo(exception.getMessage());
         return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ArticleIncorrectDataException> handleException(NoSuchArticleException exception) {
+    public ResponseEntity<ArticleIncorrectDataException> handleException(
+            NoSuchArticleException exception) {
         ArticleIncorrectDataException data = new ArticleIncorrectDataException();
         data.setInfo(exception.getMessage());
         return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);

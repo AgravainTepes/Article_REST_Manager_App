@@ -26,16 +26,20 @@ public class RESTController {
     public ResponseEntity<List<ArticleEntity>> showAllArticles() {
         List<ArticleEntity> articleEntities = articleServise.getAllArticles();
         if (articleEntities.isEmpty())
-            throw new NoSuchArticleException("The storage is empty. Please add at least one article!");
+            throw new NoSuchArticleException
+                    ("The storage is empty. Please add at least one article!");
         return new ResponseEntity<>(articleEntities, HttpStatus.OK);
     }
 
     @PostMapping("/articles")
-    public ResponseEntity<ArticleEntity> addNewArticle(@RequestBody ArticleEntity article) {
+    public ResponseEntity<ArticleEntity> addNewArticle(
+            @RequestBody ArticleEntity article) {
         if (article.getAuthor().isEmpty())
-            throw new ArticleIncorrectAuthorException("the \"author\" field should not be empty!");
+            throw new ArticleIncorrectAuthorException
+                    ("the \"author\" field should not be empty!");
         if (article.getContent().isEmpty())
-            throw new ArticleIncorrectContentException("the \"author\" field should not be empty!");
+            throw new ArticleIncorrectContentException
+                    ("the \"author\" field should not be empty!");
         article.setCreateDate(LocalDateTime.now());
         article.setUpdateDate(LocalDateTime.now());
         articleServise.saveArticle(article);
@@ -48,12 +52,15 @@ public class RESTController {
         Optional<ArticleEntity> article = articleServise.getArticleByID(id);
         if (article.isPresent())
             return new ResponseEntity<>(article.get(), HttpStatus.OK);
-        throw new NoSuchArticleException("There is no article with id " + id + " in the database!");
+        throw new NoSuchArticleException
+                ("There is no article with id " + id + " in the database!");
     }
 
     @PutMapping("/articles/{id}")
-    public ResponseEntity<ArticleEntity> updateArticleByID(@PathVariable int id, @RequestBody ArticleEntity article) {
-        Optional<ArticleEntity> dataBaseArticle = articleServise.getArticleByID(id);
+    public ResponseEntity<ArticleEntity> updateArticleByID(
+            @PathVariable int id, @RequestBody ArticleEntity article) {
+        Optional<ArticleEntity> dataBaseArticle =
+                articleServise.getArticleByID(id);
         if (dataBaseArticle.isPresent()) {
             article.setId(id);
             article.setCreateDate(dataBaseArticle.get().getCreateDate());
@@ -62,21 +69,26 @@ public class RESTController {
             return new ResponseEntity<>(article, HttpStatus.OK);
         }
         if (article.getAuthor().isEmpty())
-            throw new ArticleIncorrectAuthorException("the \"author\" field should not be empty!");
+            throw new ArticleIncorrectAuthorException
+                    ("the \"author\" field should not be empty!");
         if (article.getContent().isEmpty())
-            throw new ArticleIncorrectContentException("the \"author\" field should not be empty!");
-        throw new NoSuchArticleException("There is no article with id " + id + " in the database!");
+            throw new ArticleIncorrectContentException
+                    ("the \"author\" field should not be empty!");
+        throw new NoSuchArticleException
+                ("There is no article with id " + id + " in the database!");
     }
 
 
-
     @PatchMapping("/articles/{id}")
-    public ResponseEntity<ArticleEntity> partialUpdateArticleByID(@PathVariable int id, @RequestBody ArticleEntity article) {
+    public ResponseEntity<ArticleEntity> partialUpdateArticleByID(
+            @PathVariable int id, @RequestBody ArticleEntity article) {
         Optional<ArticleEntity> dataBaseArticle = articleServise.getArticleByID(id);
         if (!dataBaseArticle.isPresent())
-            throw new NoSuchArticleException("There is no article with id " + id + " in the database!");
+            throw new NoSuchArticleException(
+                    "There is no article with id " + id + " in the database!");
         if (article.getAuthor().isEmpty() && article.getContent().isEmpty())
-            throw new ArticleIncorrectAuthorException("the \"author\" or \" content\" field should not be empty!");
+            throw new ArticleIncorrectAuthorException(
+                    "the \"author\" or \" content\" field should not be empty!");
         article.setId(id);
         article.setCreateDate(dataBaseArticle.get().getCreateDate());
         article.setUpdateDate(LocalDateTime.now());
@@ -90,7 +102,8 @@ public class RESTController {
         String message = "ok";
         Optional<ArticleEntity> dataBaseArticle = articleServise.getArticleByID(id);
         if (!dataBaseArticle.isPresent())
-            throw new NoSuchArticleException("There is no article with id " + id + " in the database!");
+            throw new NoSuchArticleException(
+                    "There is no article with id " + id + " in the database!");
         articleServise.deleteArticleByID(id);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
